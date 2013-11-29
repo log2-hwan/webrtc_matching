@@ -1,4 +1,4 @@
-var matchServer = require('../server/matchserver');
+var matchserver = require('../server/matchserver');
 var express = require('express')
 	,app = module.exports = express();
 

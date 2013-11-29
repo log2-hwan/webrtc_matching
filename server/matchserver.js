@@ -1,18 +1,24 @@
 var io = require('socket.io');
 
-module.export = {
-	listen: function(prot) {
+module.exports = {
+	queue: [],
+	listen: function(port) {
 		io.listen(port);
-		var queue = [];
 		io.sockets.on('connection', function (socket) {
 			if(queue.length)
-				socket.emit('discover',queue.shift());
+				socket.emit('discover',this.getUser());
 			else {
 				socket.emit('wait');
 				socket.on('join', function (data) {
-					queue.push(data);
+					this.addUser(data);
 				});
 			}
 		});
+	},
+	addUser: function(user) {
+		this.queue.push(data);		//Default: Queue on memory
+	},
+	getUser: function() {
+		return this.queue.shift();	//Default: Queue on memory
 	}
 };
