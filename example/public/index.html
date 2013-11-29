@@ -1,0 +1,39 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<script src="http://localhost:8010/socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="http://cdn.peerjs.com/0.3/peer.js"></script>
+		<script src="matching.js"></script>
+		<script>
+			function log(txt) {
+				var ul = document.querySelector('ul');
+				ul.innerHTML += '<li>'+txt+'</li>';
+			}
+			window.onload = function() {
+				var nick = prompt('Please input nickname', 'user'+Math.random()*1000000<<0);
+				var match = new MatchingSystem(nick,{
+					matchServer:'http://localhost:8010',
+					peerJS: {
+						key:'92nv026dkysc3di'
+					}
+				});
+				match.on('wait',function() {
+					log('waiting for other user...');
+				});
+				match.on('discover',function(user) {
+					log(user.nick+' discovered');
+				});
+				match.on('connected',function(user) {
+					log(user.nick+' connected');
+				});
+				match.on('data',function(data) {
+					log(JSON.stringify(data));
+				});
+			};
+		</script>
+	</head>
+	<body>
+		<ul>
+		</ul>
+	</body>
+</html>
