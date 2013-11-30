@@ -1,10 +1,12 @@
-var io = require('socket.io');
+var sockio = require('socket.io');
+var PeerServer = require('peer').PeerServer;
 
 module.exports = {
 	queue: [],
-	listen: function(port) {
-		io.listen(port);
-		io.sockets.on('connection', function (socket) {
+	listen: function(port,peerPort) {
+		this.io = sockio.listen(port);
+		this.server = new PeerServer({ port: peerPort });
+		this.io.sockets.on('connection', function (socket) {
 			if(queue.length)
 				socket.emit('discover',this.getUser());
 			else {

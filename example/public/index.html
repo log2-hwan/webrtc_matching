@@ -12,9 +12,10 @@
 			window.onload = function() {
 				var nick = prompt('Please input nickname', 'user'+Math.random()*1000000<<0);
 				var match = new MatchingSystem(nick,{
-					matchServer:'http://localhost:8010',
-					peerJS: {
-						key:'92nv026dkysc3di'
+					url:'localhost',
+					port: {
+						matching:8010,
+						peer:8012
 					}
 				});
 				match.on('wait',function() {

@@ -7,6 +7,6 @@ app.use(express.static(__dirname+'/public'));
 
 if (!module.parent) {
 	app.listen(app.get('port'));
-	matchserver.listen(8010);
+	matchserver.listen(8010,8012);
 	console.log('listening on port ' + app.get('port'));
 }

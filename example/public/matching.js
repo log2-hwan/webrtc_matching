@@ -1,11 +1,11 @@
 var MatchingSystem = function(nick,config) {
-	var socket = io.connect(config.matchServer);
+	var socket = io.connect('http://'+config.url+':'+config.port.matching);
 	this.nick = nick;
 	this.events = {};
 	var _this = this;
 	socket.on('wait',function() {					
 		var conn;
-		var peer = new Peer(config.peerJS);
+		var peer = new Peer({host:config.url,port:config.port.peer});
 		var peerid;
 		peer.on('open', function(id){
 			socket.emit('join',{nick:nick,id:id});
