@@ -2,6 +2,7 @@ var MatchingSystem = function(nick,config) {
 	var socket = io.connect('http://'+config.url+':'+config.port.matching);
 	this.nick = nick;
 	this.events = {};
+	this.syncData = {};
 	var _this = this;
 	socket.on('wait',function() {					
 		var conn;
@@ -21,6 +22,10 @@ var MatchingSystem = function(nick,config) {
 					break;
 				case 'data':
 					_this._emit('data',data.data);
+					break;
+				case 'sync':
+					_this.syncData = data.data[0].object;
+					break;
 				}
 			});
 		});
@@ -38,9 +43,16 @@ var MatchingSystem = function(nick,config) {
 				switch(data.type) {
 				case 'data':
 					_this._emit('data',data.data);
+					break;
+				case 'sync':
+					_this.syncData = data.data[0].object;
+					break;
 				}
 			});
 		});
+	});
+	Object.observe(this.syncData,function(e) {
+		_this.conn.send({type:'sync',data:e});
 	});
 };
 

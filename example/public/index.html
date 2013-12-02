@@ -5,13 +5,14 @@
 		<script type="text/javascript" src="http://cdn.peerjs.com/0.3/peer.js"></script>
 		<script src="matching.js"></script>
 		<script>
+			var match = null;
 			function log(txt) {
 				var ul = document.querySelector('ul');
 				ul.innerHTML += '<li>'+txt+'</li>';
 			}
 			window.onload = function() {
 				var nick = prompt('Please input nickname', 'user'+Math.random()*1000000<<0);
-				var match = new MatchingSystem(nick,{
+				match = new MatchingSystem(nick,{
 					url:'localhost',
 					port: {
 						matching:8010,
