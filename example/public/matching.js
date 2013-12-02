@@ -26,7 +26,7 @@ var MatchingSystem = function(nick,config) {
 		});
 	});
 	socket.on('discover',function(user) {
-		var peer = new Peer(config.peerJS);
+		var peer = new Peer({host:config.url,port:config.port.peer});
 		_this._emit('discover',{nick:user.nick});
 		
 		var conn = peer.connect(user.id);
@@ -63,7 +63,7 @@ MatchingSystem.prototype.off = function(type,cb) {
 	this.events[type].splice(cb);
 };
 
-MathcingSystem.prototype.send = function(data) {
+MatchingSystem.prototype.send = function(data) {
 	if(!this.conn) return;
 	
 	this.conn.send({type:'data',data:data});
