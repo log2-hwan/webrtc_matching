@@ -1,0 +1,9 @@
+{	
+	"name": "webrtc_matching",
+	"description": "simple peer-to-peer matching server using peerjs, socket.io",
+	"author": "Jeonghwan Lee <jeonghwan1127@gmail.com>",
+	"dependencies": {
+		"socket.io":">= 0.9",
+		"peer":">= 0.2.1"
+	}
+}
