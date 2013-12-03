@@ -10,6 +10,11 @@
 				var ul = document.querySelector('ul');
 				ul.innerHTML += '<li>'+txt+'</li>';
 			}
+			function loop(time) {
+				requestAnimationFrame(loop);
+				match.syncData.time = time;
+				match.syncData.val = match.syncData.val === undefined ? 0 : match.syncData.val+1;
+			}
 			window.onload = function() {
 				var nick = prompt('Please input nickname', 'user'+Math.random()*1000000<<0);
 				match = new MatchingSystem(nick,{
@@ -27,9 +32,16 @@
 				});
 				match.on('connected',function(user) {
 					log(user.nick+' connected');
+					if(this.isHost) requestAnimationFrame(loop);
+					setInterval(function() {
+						log(match.syncData.val);
+					},1000);
 				});
 				match.on('data',function(data) {
 					log(JSON.stringify(data));
+				});
+				match.on('error',function(e) {
+					console.log(e);
 				});
 			};
 		</script>

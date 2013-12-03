@@ -13,16 +13,24 @@ module.exports = {
 			else {
 				socket.emit('wait');
 				socket.on('join', function (data) {
+					socket.data = data;
 					_this.addUser(data);
 				});
 			}
+			socket.on('disconnect', function () {
+				_this.removeUser(socket.data.id);
+			});
 		});
 	},
 	addUser: function(user) {
 		this.queue.push(user);		//Default: Queue on memory
 	},
 	getUser: function() {
-		return this.queue.shift();	//Default: Queue on memory
+		var user = this.queue.shift();
+		return user;				//Default: Queue on memory
+	},
+	removeUser: function(id) {
+		this.queue.splice(id);
 	},
 	isAvailable: function() {
 		return !!this.queue.length;
